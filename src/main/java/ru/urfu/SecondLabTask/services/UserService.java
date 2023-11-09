@@ -2,6 +2,8 @@ package ru.urfu.SecondLabTask.services;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Collections;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.urfu.SecondLabTask.dto.UserDTO;
 import ru.urfu.SecondLabTask.model.Role;
 import ru.urfu.SecondLabTask.model.User;
@@ -24,6 +26,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class UserService implements UserDetailsService{
 
     private final UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository){
@@ -53,7 +57,7 @@ public class UserService implements UserDetailsService{
         }
         User user = new User();
         user.setUserName(userDTO.getUserName());
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setRoles(Collections.singleton(Role.USER));
         user.setActive(true);
         userRepository.save(user);
