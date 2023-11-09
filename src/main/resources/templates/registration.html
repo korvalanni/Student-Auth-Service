@@ -1,15 +1,66 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">\<head>
-    <title>Spring Security Example </title>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Spring Security Example</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-field {
+            margin-bottom: 10px;
+        }
+        label {
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-<div th:if="${message}">
-    <div th:text="${message}"></div>
+<div class="form-container">
+    <div th:if="${message}">
+        <div th:text="${message}"></div>
+    </div>
+    <form th:action="@{/registration}" method="post">
+        <div class="form-field">
+            <label> User Name : <input type="text" name="userName"/> </label>
+        </div>
+        <div class="form-field">
+            <label> Password: <input type="password" name="password"/> </label>
+        </div>
+        <div class="form-field">
+            <input type="submit" value="Зарегистрироваться"/>
+        </div>
+    </form>
 </div>
-<form th:action="@{/registration}" method="post">
-    <div><label> User Name : <input type="text" name="userName"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Зарегистрироваться"/></div>
-</form>
 </body>
 </html>
