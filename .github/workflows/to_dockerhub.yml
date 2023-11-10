@@ -28,5 +28,5 @@ jobs:
           # context: .
           # platforms: linux/arm64/v8
           push: true
-          tags: korvalanni/student-auth-service:latest
-      
+          tags: korvalanni/clown:latest
+          
