@@ -50,7 +50,7 @@
     <div th:if="${message}">
         <div th:text="${message}"></div>
     </div>
-    <form th:action="@{/registration}" method="post">
+    <form th:action="@{/login}" method="post">
         <div class="form-field">
             <label> Имя пользователя : <input type="text" name="userName"/> </label>
         </div>
@@ -58,7 +58,7 @@
             <label> Пароль: <input type="password" name="password"/> </label>
         </div>
         <div class="form-field">
-            <input type="submit" value="Зарегистрироваться"/>
+            <input type="submit" value="Войти"/>
         </div>
     </form>
 </div>
