@@ -9,27 +9,32 @@ import ru.urfu.SecondLabTask.services.UserService;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class PageRegistrationController
-{
+public class PageRegistrationController {
     private final UserService userService;
 
-    @GetMapping({ "/registration" })
+    @GetMapping("/registration")
     public String registration() {
         return "registration";
     }
 
-    @PostMapping({ "/registration" })
-    public String adduser(@ModelAttribute final UserDTO userDTO, final Model model) {
+    @PostMapping("/registration")
+    public String addUser(@ModelAttribute UserDTO userDTO, Model model) {
         try {
-            this.userService.addUser(userDTO);
+            userService.addUser(userDTO);
+            return "registration";
+        } catch (Exception ex) {
+            model.addAttribute("message", "User exists");
+            return "registration";
         }
-        catch (Exception ex) {
-            model.addAttribute("message", (Object)"User exists");
-        }
-        return "registration";
     }
 
-    public PageRegistrationController(final UserService userService) {
+
+    @GetMapping("/loginSuccess")
+    public String loginSuccess() {
+        return "success";
+    }
+
+    public PageRegistrationController(UserService userService) {
         this.userService = userService;
     }
 }

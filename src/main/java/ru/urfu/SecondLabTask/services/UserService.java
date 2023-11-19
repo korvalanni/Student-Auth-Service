@@ -4,6 +4,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Collections;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import ru.urfu.SecondLabTask.dto.UserDTO;
 import ru.urfu.SecondLabTask.model.Role;
 import ru.urfu.SecondLabTask.model.User;
@@ -19,10 +20,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.urfu.SecondLabTask.repository.UserRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-@Component
+@Service
 public class UserService implements UserDetailsService{
 
     private final UserRepository userRepository;
@@ -61,5 +61,9 @@ public class UserService implements UserDetailsService{
         user.setRoles(Collections.singleton(Role.USER));
         user.setActive(true);
         userRepository.save(user);
+    }
+
+    public User findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
     }
 }
