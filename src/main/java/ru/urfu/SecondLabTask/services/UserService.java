@@ -49,7 +49,6 @@ public class UserService implements UserDetailsService{
 
     public void addUser(UserDTO userDTO) throws Exception
     {
-
         User userFromDb = userRepository.findByUserName(userDTO.getUserName());
         if (userFromDb != null)
         {

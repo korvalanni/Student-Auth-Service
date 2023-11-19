@@ -12,23 +12,24 @@ import ru.urfu.SecondLabTask.services.UserService;
 public class PageLoginController {
     private final UserService userService;
 
-    @GetMapping({ "/login" })
-    public String registration() {
-        return "login";
-    }
-
-    @PostMapping({ "/login" })
-    public String adduser(@ModelAttribute final UserDTO userDTO, final Model model) {
-        try {
-            this.userService.addUser(userDTO);
-        }
-        catch (Exception ex) {
-            model.addAttribute("message", (Object)"User exists");
-        }
-        return "login";
-    }
-
     public PageLoginController(final UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping({"/login"})
+    public String login() {
+        return "login";
+    }
+
+    @PostMapping({"/login"})
+    public String loginUser(@ModelAttribute final UserDTO userDTO, final Model model) {
+        try {
+            this.userService.addUser(userDTO);
+            return "loginSuccess";
+        }
+        catch (Exception ex) {
+            model.addAttribute("message", (Object)"Пользователь не существует");
+            return "login";
+        }
     }
 }

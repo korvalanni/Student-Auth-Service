@@ -22,11 +22,12 @@ public class PageRegistrationController
     public String adduser(@ModelAttribute final UserDTO userDTO, final Model model) {
         try {
             this.userService.addUser(userDTO);
+            return "registrationSuccess";
         }
         catch (Exception ex) {
             model.addAttribute("message", (Object)"User exists");
+            return "registration";
         }
-        return "registration";
     }
 
     public PageRegistrationController(final UserService userService) {
