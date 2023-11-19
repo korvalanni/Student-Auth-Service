@@ -1,6 +1,5 @@
 package ru.urfu.SecondLabTask.configuration;
 
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.context.annotation.Bean;
@@ -15,16 +14,19 @@ public class SecurityConfig
 {
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return (PasswordEncoder)new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(requests -> ((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)
-                ((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)requests.requestMatchers(
-                        new String[] { "/login", "/registration" })).permitAll().anyRequest())
-                .authenticated()).formLogin(form -> form.loginPage("/login").permitAll()).
-                logout(logout -> logout.permitAll());
-        return (SecurityFilterChain)http.build();
+        http
+                .csrf().disable()
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/registration", "/user/**").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin().disable()
+                .logout((logout) -> logout.permitAll());
+
+        return http.build();
     }
 }
