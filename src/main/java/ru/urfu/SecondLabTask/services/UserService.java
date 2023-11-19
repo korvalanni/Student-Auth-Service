@@ -66,4 +66,22 @@ public class UserService implements UserDetailsService{
     public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
+
+    public void updateUser(String userName, UserDTO userDTO) throws Exception {
+        User userFromDb = userRepository.findByUserName(userDTO.getUserName());
+        if (userFromDb == null)
+        {
+            throw new Exception("userDTO does not exist");
+        }
+        User user = findByUserName(userName);
+        user.setUserName(userDTO.getUserName());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        userRepository.save(user);
+    }
+
+    public void deleteUser(String userName) {
+        User user = findByUserName(userName);
+        userRepository.delete(user);
+    }
+
 }

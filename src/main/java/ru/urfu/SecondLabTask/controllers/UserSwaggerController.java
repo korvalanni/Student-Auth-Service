@@ -33,4 +33,21 @@ public class UserSwaggerController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PutMapping("/{userName}")
+    public ResponseEntity<Void> updateUser(@PathVariable String userName, @RequestBody UserDTO userDTO) {
+        try{
+        userService.updateUser(userName, userDTO);
+        }
+        catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{userName}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String userName) {
+        userService.deleteUser(userName);
+        return ResponseEntity.ok().build();
+    }
+
 }
