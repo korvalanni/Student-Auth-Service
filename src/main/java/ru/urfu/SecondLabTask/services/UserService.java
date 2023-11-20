@@ -1,6 +1,7 @@
 package ru.urfu.SecondLabTask.services;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.util.Collections;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,10 +12,12 @@ import ru.urfu.SecondLabTask.model.User;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.springframework.security.core.GrantedAuthority;
-import java.util.List;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.List;
+
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,36 +26,32 @@ import ru.urfu.SecondLabTask.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Service
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
-    {
-       User myUser = userRepository.findByUserName(username);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User myUser = userRepository.findByUserName(username);
         return new org.springframework.security.core.userdetails.User(myUser.getUserName(),
                 myUser.getPassword(), mapRolesToAthorities(myUser.getRoles()));
     }
 
-    private List<? extends GrantedAuthority> mapRolesToAthorities(Set<Role> roles)
-    {
+    private List<? extends GrantedAuthority> mapRolesToAthorities(Set<Role> roles) {
         return roles.stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.name())).collect(Collectors.toList());
     }
 
-    public void addUser(UserDTO userDTO) throws Exception
-    {
+    public void addUser(UserDTO userDTO) throws Exception {
 
         User userFromDb = userRepository.findByUserName(userDTO.getUserName());
-        if (userFromDb != null)
-        {
+        if (userFromDb != null) {
             throw new Exception("userDTO exist");
         }
         User user = new User();
@@ -69,8 +68,7 @@ public class UserService implements UserDetailsService{
 
     public void updateUser(String userName, UserDTO userDTO) throws Exception {
         User userFromDb = userRepository.findByUserName(userDTO.getUserName());
-        if (userFromDb == null)
-        {
+        if (userFromDb == null) {
             throw new Exception("userDTO does not exist");
         }
         User user = findByUserName(userName);
@@ -84,4 +82,13 @@ public class UserService implements UserDetailsService{
         userRepository.delete(user);
     }
 
+    public void tryLogin(UserDTO userDTO) throws Exception {
+        User userFromDb = userRepository.findByUserName(userDTO.getUserName());
+        if (userFromDb == null) {
+            throw new Exception("userDTO does not exist");
+        }
+        if (!passwordEncoder.matches(userDTO.getPassword(), userFromDb.getPassword())) {
+            throw new Exception("Incorrect password");
+        }
+    }
 }
