@@ -68,9 +68,12 @@ public class UserService implements UserDetailsService {
 
     public void updateUser(String userName, UserDTO userDTO) throws Exception {
         User userFromDb = userRepository.findByUserName(userDTO.getUserName());
-        if (userFromDb == null) {
+        if (userFromDb == null)
             throw new Exception("userDTO does not exist");
-        }
+
+        if(!passwordEncoder.matches(userDTO.getPassword(), userFromDb.getPassword()))
+            throw new Exception("Incorrect password");
+
         User user = findByUserName(userName);
         user.setUserName(userDTO.getUserName());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
