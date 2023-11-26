@@ -15,14 +15,10 @@
     <description>Сервис авторизации для студентов</description>
     <properties>
         <java.version>17</java.version>
-        <rest-assured.version>5.3.0</rest-assured.version>
         <lombok.version>1.18.30</lombok.version>
         <spring-boot-maven-plugin.version>3.1.4</spring-boot-maven-plugin.version>
         <spotbugs.version>4.7.3</spotbugs.version>
         <spring-boot-starter-thymeleaf.version>3.1.5</spring-boot-starter-thymeleaf.version>
-        <spotbugs.maven.plugin.version>3.1.0</spotbugs.maven.plugin.version>
-        <rest-assured.version>5.2.0</rest-assured.version>
-        <maven-pmd-plugin.version>3.19.0</maven-pmd-plugin.version>
     </properties>
     <dependencies>
         <dependency>
@@ -41,13 +37,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>${rest-assured.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -87,102 +76,27 @@
             <version>3.1.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
 
 
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot-maven-plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-pmd-plugin</artifactId>
-                    <version>${maven-pmd-plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>com.github.spotbugs</groupId>
-                    <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>${spotbugs.maven.plugin.version}</version>
-                    <configuration>
-                        <effort>Max</effort>
-                        <threshold>Low</threshold>
-                        <xmlOutput>true</xmlOutput>
-                        <xmlOutputDirectory>target/spotbugs</xmlOutputDirectory>
-                        <spotbugsXmlOutputDirectory>target/spotbugs</spotbugsXmlOutputDirectory>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.github.spotbugs</groupId>
-                            <artifactId>spotbugs</artifactId>
-                            <version>${spotbugs.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-contract-maven-plugin</artifactId>
-                    <version>${spring-cloud-contract.version}</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <testMode>EXPLICIT</testMode>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot-maven-plugin.version}</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>${maven-pmd-plugin.version}</version>
-            </plugin>
-
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>${spotbugs.maven.plugin.version}</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <threshold>Low</threshold>
-                    <xmlOutput>true</xmlOutput>
-                    <xmlOutputDirectory>target/spotbugs</xmlOutputDirectory>
-                    <spotbugsXmlOutputDirectory>target/spotbugs</spotbugsXmlOutputDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs</artifactId>
-                        <version>${spotbugs.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
         </plugins>

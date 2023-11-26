@@ -69,9 +69,11 @@ public class UserService implements UserDetailsService {
     public void updateUserName(String userName, UserDTO userDTO) throws Exception {
         User userFromDb = userRepository.findByUserName(userDTO.getUserName());
         if (userFromDb == null)
+            //toDo добавить логирование
             throw new Exception("userDTO does not exist");
 
         if(!passwordEncoder.matches(userDTO.getPassword(), userFromDb.getPassword()))
+            //toDo добавить логирование
             throw new Exception("Incorrect password");
 
         User user = findByUserName(userName);
@@ -92,9 +94,11 @@ public class UserService implements UserDetailsService {
     public void tryLogin(UserDTO userDTO) throws Exception {
         User userFromDb = userRepository.findByUserName(userDTO.getUserName());
         if (userFromDb == null) {
+            //toDo добавить логирование
             throw new Exception("userDTO does not exist");
         }
         if (!passwordEncoder.matches(userDTO.getPassword(), userFromDb.getPassword())) {
+            //toDo добавить логирование
             throw new Exception("Incorrect password");
         }
     }
