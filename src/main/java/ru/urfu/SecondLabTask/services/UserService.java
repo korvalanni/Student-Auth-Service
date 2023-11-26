@@ -66,7 +66,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUserName(userName);
     }
 
-    public void updateUser(String userName, UserDTO userDTO) throws Exception {
+    public void updateUserName(String userName, UserDTO userDTO) throws Exception {
         User userFromDb = userRepository.findByUserName(userDTO.getUserName());
         if (userFromDb == null)
             throw new Exception("userDTO does not exist");
@@ -76,8 +76,12 @@ public class UserService implements UserDetailsService {
 
         User user = findByUserName(userName);
         user.setUserName(userDTO.getUserName());
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);
+    }
+
+    public User updateUserPassword(UserDTO userDTO) throws Exception{
+        //toDo написать метод обновления пароля пользователя
+        return null;
     }
 
     public void deleteUser(String userName) {

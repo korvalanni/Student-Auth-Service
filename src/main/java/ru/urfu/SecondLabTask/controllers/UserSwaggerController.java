@@ -33,15 +33,21 @@ public class UserSwaggerController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{userName}")
-    public ResponseEntity<Void> updateUser(@PathVariable String userName, @RequestBody UserDTO userDTO) {
+    @PutMapping("{userName}")
+    public ResponseEntity<Void> updateUserName(@PathVariable String userName, @RequestBody UserDTO userDTO) {
         try{
-        userService.updateUser(userName, userDTO);
+        userService.updateUserName(userName, userDTO);
         }
         catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
+    }
+    @PutMapping("/password")
+    public ResponseEntity<Void> updateUserPassword(@RequestBody UserDTO userDTO){
+        //toDo написать метод обновления пароля
+
+        return ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping("/{userName}")
