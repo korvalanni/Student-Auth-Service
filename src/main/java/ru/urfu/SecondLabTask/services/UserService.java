@@ -82,7 +82,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public User updateUserPassword(UserUpdatePasswordDTO userUpdatePasswordDTO) throws Exception{
+    public User updateUserPassword(String userName, UserUpdatePasswordDTO userUpdatePasswordDTO) throws Exception{
         //toDo написать метод обновления пароля пользователя
         return null;
     }

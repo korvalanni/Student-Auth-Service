@@ -44,10 +44,10 @@ public class UserSwaggerController {
         }
         return ResponseEntity.ok().build();
     }
-    @PutMapping("/password")
-    public ResponseEntity<Void> updateUserPassword(@RequestBody UserUpdatePasswordDTO userUpdatePasswordDTO){
+    @PutMapping("/password/{userName}")
+    public ResponseEntity<Void> updateUserPassword(@PathVariable String userName, @RequestBody UserUpdatePasswordDTO userUpdatePasswordDTO){
         try{
-            userService.updateUserPassword(userUpdatePasswordDTO);
+            userService.updateUserPassword(userName, userUpdatePasswordDTO);
         }
         catch (Exception ex) {
             return ResponseEntity.badRequest().build();
