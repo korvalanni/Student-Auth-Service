@@ -7,6 +7,7 @@ import java.util.Collections;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.urfu.SecondLabTask.dto.UserDTO;
+import ru.urfu.SecondLabTask.dto.UserUpdatePasswordDTO;
 import ru.urfu.SecondLabTask.model.Role;
 import ru.urfu.SecondLabTask.model.User;
 
@@ -67,9 +68,11 @@ public class UserService implements UserDetailsService {
     }
 
     public void updateUserName(String userName, UserDTO userDTO) throws Exception {
-        User userFromDb = userRepository.findByUserName(userDTO.getUserName());
+        User userFromDb = userRepository.findByUserName(userName);
         if (userFromDb == null)
-            throw new Exception("userDTO does not exist");
+            throw new Exception("user does not exist");
+        if (userRepository.findByUserName(userDTO.getUserName()) != null)
+            throw new Exception("user exist");
 
         if(!passwordEncoder.matches(userDTO.getPassword(), userFromDb.getPassword()))
             throw new Exception("Incorrect password");
@@ -79,7 +82,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public User updateUserPassword(UserDTO userDTO) throws Exception{
+    public User updateUserPassword(UserUpdatePasswordDTO userUpdatePasswordDTO) throws Exception{
         //toDo написать метод обновления пароля пользователя
         return null;
     }
