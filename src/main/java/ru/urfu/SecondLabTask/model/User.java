@@ -3,6 +3,7 @@ package ru.urfu.SecondLabTask.model;
 import java.util.HashSet;
 
 import jakarta.persistence.*;
+import lombok.Setter;
 
 import java.util.Set;
 
@@ -20,8 +21,9 @@ public class User
     @CollectionTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") })
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
-    @ManyToOne
-    private Project projectId;
+//    @ManyToOne
+    @Setter
+    private Long projectId;
 
     public Long getId() {
         return this.id;

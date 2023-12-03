@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class ProjectDTO {
+    private Long id;
     private String title;
     private List<User> users;
 }

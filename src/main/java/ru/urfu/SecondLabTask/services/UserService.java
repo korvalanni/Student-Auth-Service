@@ -2,12 +2,14 @@ package ru.urfu.SecondLabTask.services;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.urfu.SecondLabTask.dto.ProjectDTO;
 import ru.urfu.SecondLabTask.dto.UserDTO;
+import ru.urfu.SecondLabTask.model.Project;
 import ru.urfu.SecondLabTask.model.Role;
 import ru.urfu.SecondLabTask.model.User;
 
@@ -23,19 +25,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.urfu.SecondLabTask.repository.ProjectRepository;
 import ru.urfu.SecondLabTask.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Service
 public class UserService implements UserDetailsService {
-
     private final UserRepository userRepository;
+    private final ProjectRepository projectRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ProjectRepository projectRepository) {
         this.userRepository = userRepository;
+        this.projectRepository = projectRepository;
     }
 
     @Override
@@ -99,7 +103,14 @@ public class UserService implements UserDetailsService {
             throw new Exception("Incorrect password");
         }
     }
-    public void addProject(ProjectDTO projectDTO){
-
+    public void addProject(ProjectDTO projectDTO) throws Exception{
+        Project project = new Project();
+        project.setTitle(projectDTO.getTitle());
+        projectRepository.save(project);
+    }
+    public void assignProject(String userName, Long projectId) throws Exception{
+        User userFromDb = userRepository.findByUserName(userName);
+        userFromDb.setProjectId(projectId);
+        userRepository.save(userFromDb);
     }
 }
