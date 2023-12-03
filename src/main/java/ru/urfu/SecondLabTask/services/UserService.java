@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.urfu.SecondLabTask.dto.ProjectDTO;
 import ru.urfu.SecondLabTask.dto.UserDTO;
 import ru.urfu.SecondLabTask.model.Role;
 import ru.urfu.SecondLabTask.model.User;
@@ -97,5 +98,8 @@ public class UserService implements UserDetailsService {
         if (!passwordEncoder.matches(userDTO.getPassword(), userFromDb.getPassword())) {
             throw new Exception("Incorrect password");
         }
+    }
+    public void addProject(ProjectDTO projectDTO){
+
     }
 }

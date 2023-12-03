@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.urfu.SecondLabTask.dto.ProjectDTO;
 import ru.urfu.SecondLabTask.dto.UserDTO;
 import ru.urfu.SecondLabTask.model.User;
 import ru.urfu.SecondLabTask.services.UserService;
@@ -56,4 +57,14 @@ public class UserSwaggerController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/project")
+    public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO){
+        try{
+            userService.addProject(projectDTO);
+        }
+        catch (Exception ex){
+            return ResponseEntity.badRequest().build();
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }
