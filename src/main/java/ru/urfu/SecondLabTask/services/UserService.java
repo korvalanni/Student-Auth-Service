@@ -1,5 +1,6 @@
 package ru.urfu.SecondLabTask.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collections;
@@ -25,7 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.urfu.SecondLabTask.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
+@Slf4j
 @Service
 public class UserService implements UserDetailsService {
 
@@ -53,6 +54,7 @@ public class UserService implements UserDetailsService {
 
         User userFromDb = userRepository.findByUserName(userDTO.getUserName());
         if (userFromDb != null) {
+            log.error("Пользователь есть в базе данных");
             throw new Exception("userDTO exist");
         }
         User user = new User();

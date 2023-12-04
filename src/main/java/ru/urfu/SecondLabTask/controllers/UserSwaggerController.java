@@ -1,5 +1,6 @@
 package ru.urfu.SecondLabTask.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,7 @@ import ru.urfu.SecondLabTask.dto.UserDTO;
 import ru.urfu.SecondLabTask.dto.UserUpdatePasswordDTO;
 import ru.urfu.SecondLabTask.model.User;
 import ru.urfu.SecondLabTask.services.UserService;
-
+@Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserSwaggerController {
