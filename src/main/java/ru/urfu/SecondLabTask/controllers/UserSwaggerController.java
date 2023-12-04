@@ -6,7 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.urfu.SecondLabTask.dto.ProjectDTO;
 import ru.urfu.SecondLabTask.dto.UserDTO;
+import ru.urfu.SecondLabTask.model.Project;
 import ru.urfu.SecondLabTask.model.User;
+import ru.urfu.SecondLabTask.repository.ProjectRepository;
+import ru.urfu.SecondLabTask.services.ProjectService;
 import ru.urfu.SecondLabTask.services.UserService;
 
 @RestController
@@ -15,6 +18,10 @@ public class UserSwaggerController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ProjectService projectService;
+    @Autowired
+    private ProjectRepository projectRepository;
 
     @GetMapping("{userName}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String userName){
@@ -58,20 +65,23 @@ public class UserSwaggerController {
     }
 
     @PostMapping("/project")
-    public ResponseEntity<Void> createProject(@RequestBody ProjectDTO projectDTO){
+    public String createProject(@RequestBody ProjectDTO projectDTO){
         try{
-            userService.addProject(projectDTO);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            projectService.addProject(projectDTO);
+            Project project = projectRepository.findByProjectTitle(projectDTO.getTitle());
+//            return new ResponseEntity<>(HttpStatus.CREATED);
+            return project.toString();
         }
         catch (Exception ex){
-            return ResponseEntity.badRequest().build();
+//            return ResponseEntity.badRequest().build();
+            return "400";
         }
 
     }
     @PostMapping("/project/{projectTitle}")
     public ResponseEntity<ProjectDTO> assignProject(@PathVariable String projectTitle, @RequestBody UserDTO userDTO){
         try{
-            userService.assignProject(userDTO.getUserName(), projectTitle);
+            projectService.assignProject(userDTO.getUserName(), projectTitle);
         }
         catch (Exception ex){
             return ResponseEntity.badRequest().build();
