@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.urfu.SecondLabTask.dto.UserDTO;
+import ru.urfu.SecondLabTask.dto.UserUpdatePasswordDTO;
 import ru.urfu.SecondLabTask.model.User;
 import ru.urfu.SecondLabTask.services.UserService;
 
@@ -43,11 +44,15 @@ public class UserSwaggerController {
         }
         return ResponseEntity.ok().build();
     }
-    @PutMapping("/password")
-    public ResponseEntity<Void> updateUserPassword(@RequestBody UserDTO userDTO){
-        //toDo написать метод обновления пароля
-
-        return ResponseEntity.badRequest().build();
+    @PutMapping("/password/{userName}")
+    public ResponseEntity<Void> updateUserPassword(@PathVariable String userName, @RequestBody UserUpdatePasswordDTO userUpdatePasswordDTO){
+        try{
+            userService.updateUserPassword(userName, userUpdatePasswordDTO);
+        }
+        catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{userName}")
