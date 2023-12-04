@@ -18,6 +18,7 @@ public class Project {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(unique=true)
     private String title;
 //    @OneToMany
 //    private List<User> users;

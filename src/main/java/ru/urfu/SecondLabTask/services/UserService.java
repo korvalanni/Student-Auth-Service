@@ -1,5 +1,6 @@
 package ru.urfu.SecondLabTask.services;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
@@ -103,13 +104,22 @@ public class UserService implements UserDetailsService {
             throw new Exception("Incorrect password");
         }
     }
-    public void addProject(ProjectDTO projectDTO) throws Exception{
+    public String addProject(ProjectDTO projectDTO) throws Exception{
+        Project projectFromDb = projectRepository.findByProjectTitle(projectDTO.getTitle());
+        if (projectFromDb != null) {
+            throw new Exception("projectDTO exist");
+        }
         Project project = new Project();
         project.setTitle(projectDTO.getTitle());
         projectRepository.save(project);
+        return project.getTitle();
     }
-    public void assignProject(String userName, Long projectId) throws Exception{
+    public void assignProject(String userName, String projectTitle) throws Exception{
         User userFromDb = userRepository.findByUserName(userName);
+        if (userFromDb == null) {
+            throw new Exception("userDTO doesn't exist");
+        }
+        Long projectId = projectRepository.findByProjectTitle(projectTitle).getId();
         userFromDb.setProjectId(projectId);
         userRepository.save(userFromDb);
     }

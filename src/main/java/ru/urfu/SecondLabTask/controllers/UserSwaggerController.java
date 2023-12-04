@@ -58,19 +58,20 @@ public class UserSwaggerController {
     }
 
     @PostMapping("/project")
-    public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO){
+    public ResponseEntity<Void> createProject(@RequestBody ProjectDTO projectDTO){
         try{
             userService.addProject(projectDTO);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch (Exception ex){
             return ResponseEntity.badRequest().build();
         }
-        return new ResponseEntity<>(HttpStatus.CREATED);
+
     }
-    @PostMapping("/project/{projectId}")
-    public ResponseEntity<ProjectDTO> assignProject(@PathVariable Long projectId, @RequestBody UserDTO userDTO){
+    @PostMapping("/project/{projectTitle}")
+    public ResponseEntity<ProjectDTO> assignProject(@PathVariable String projectTitle, @RequestBody UserDTO userDTO){
         try{
-            userService.assignProject(userDTO.getUserName(), projectId);
+            userService.assignProject(userDTO.getUserName(), projectTitle);
         }
         catch (Exception ex){
             return ResponseEntity.badRequest().build();
