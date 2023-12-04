@@ -83,8 +83,15 @@ public class UserService implements UserDetailsService {
     }
 
     public User updateUserPassword(String userName, UserUpdatePasswordDTO userUpdatePasswordDTO) throws Exception{
-        //toDo написать метод обновления пароля пользователя
-        return null;
+        User userFromDb = userRepository.findByUserName(userName);
+        if (userFromDb == null)
+            throw new Exception("user does not exist");
+        if(!passwordEncoder.matches(userUpdatePasswordDTO.getUserOldPassword(), userFromDb.getPassword()))
+            throw new Exception("Incorrect password");
+        User user = findByUserName(userName);
+        user.setPassword(userUpdatePasswordDTO.getUserNewPassword());
+        userRepository.save(user);
+        return user;
     }
 
     public void deleteUser(String userName) {
