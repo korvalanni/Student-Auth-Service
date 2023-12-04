@@ -24,7 +24,11 @@ public class SecurityConfig
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/registration", "/user/**", "/password", "/login").permitAll()
                         .anyRequest().authenticated())
-                .formLogin().disable()
+                .formLogin((login) -> login
+                        .loginPage("/login")
+                        .permitAll()
+                        .defaultSuccessUrl("/user", true)
+                        .failureUrl("/login?error=true"))
                 .logout((logout) -> logout.permitAll());
 
         return http.build();
