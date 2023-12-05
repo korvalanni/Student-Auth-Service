@@ -104,12 +104,19 @@ public class UserService implements UserDetailsService {
         }
     }
     public void addProject(ProjectDTO projectDTO) throws Exception{
+        Project projectFromDb = projectRepository.findByTitle(projectDTO.getTitle());
+        if (projectFromDb != null) {
+            throw new Exception("project exist");
+        }
         Project project = new Project();
         project.setTitle(projectDTO.getTitle());
         projectRepository.save(project);
     }
     public void assignProject(String userName, Long projectId) throws Exception{
         User userFromDb = userRepository.findByUserName(userName);
+        if (userFromDb == null) {
+            throw new Exception("project doesn't exist");
+        }
         userFromDb.setProjectId(projectId);
         userRepository.save(userFromDb);
     }
