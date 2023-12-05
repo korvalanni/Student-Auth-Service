@@ -10,10 +10,10 @@ import ru.urfu.SecondLabTask.repository.UserRepository;
 
 @Service
 public class ProjectService {
-    @Autowired
-    private final ProjectRepository projectRepository;
-    @Autowired
+   
+    private final ProjectRepository projectRepository;   
     private final UserRepository userRepository;
+    
     @Autowired
     public ProjectService(ProjectRepository projectRepository, UserRepository userRepository) {
         this.projectRepository = projectRepository;
