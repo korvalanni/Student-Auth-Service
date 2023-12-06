@@ -59,7 +59,6 @@ public class UserSwaggerController {
         userService.deleteUser(userName);
         return ResponseEntity.ok().build();
     }
-
     @PostMapping("/project")
     public ResponseEntity<Long> createProject(@RequestBody ProjectDTO projectDTO){
         try{
