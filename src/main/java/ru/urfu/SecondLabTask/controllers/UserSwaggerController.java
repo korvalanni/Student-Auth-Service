@@ -21,6 +21,7 @@ public class UserSwaggerController {
     public ResponseEntity<UserDTO> getUser(@PathVariable String userName){
         User user = userService.findByUserName(userName);
         UserDTO userDTO = new UserDTO(user.getUserName(), user.getPassword());
+        log.info("Пользователь был успешно найден");
         return ResponseEntity.ok(userDTO);
     }
 
@@ -32,6 +33,7 @@ public class UserSwaggerController {
         catch (Exception ex){
             return ResponseEntity.badRequest().build();
         }
+        log.info("Пользователь был успешно создан");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -43,6 +45,7 @@ public class UserSwaggerController {
         catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
+        log.info("Логин пользователя был успешно обновлен");
         return ResponseEntity.ok().build();
     }
     @PutMapping("/password/{userName}")
@@ -53,12 +56,14 @@ public class UserSwaggerController {
         catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
+        log.info("Пароль пользователя был успешно обновлен");
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{userName}")
     public ResponseEntity<Void> deleteUser(@PathVariable String userName) {
         userService.deleteUser(userName);
+        log.info("Пользователь был успешно удален");
         return ResponseEntity.ok().build();
     }
 
