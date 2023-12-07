@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.urfu.SecondLabTask.dto.ProjectDTO;
 import ru.urfu.SecondLabTask.dto.UserDTO;
 import ru.urfu.SecondLabTask.dto.UserUpdatePasswordDTO;
 import ru.urfu.SecondLabTask.model.User;
+import ru.urfu.SecondLabTask.repository.ProjectRepository;
 import ru.urfu.SecondLabTask.services.UserService;
 @Slf4j
 @RestController
@@ -16,6 +18,8 @@ public class UserSwaggerController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ProjectRepository projectRepository;
 
     @GetMapping("{userName}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String userName){
@@ -66,5 +70,25 @@ public class UserSwaggerController {
         log.info("Пользователь был успешно удален");
         return ResponseEntity.ok().build();
     }
-
+    @PostMapping("/project")
+    public ResponseEntity<Long> createProject(@RequestBody ProjectDTO projectDTO){
+        try{
+            userService.addProject(projectDTO);
+        }
+        catch (Exception ex){
+            return ResponseEntity.badRequest().build();
+        }
+        Long id = projectRepository.findByTitle(projectDTO.getTitle()).getId();
+        return new ResponseEntity<>(id, HttpStatus.CREATED);
+    }
+    @PostMapping("/project/{projectId}")
+    public ResponseEntity<ProjectDTO> assignProject(@PathVariable Long projectId, @RequestBody UserDTO userDTO){
+        try{
+            userService.assignProject(userDTO.getUserName(), projectId);
+        }
+        catch (Exception ex){
+            return ResponseEntity.badRequest().build();
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

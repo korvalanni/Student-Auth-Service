@@ -1,17 +1,11 @@
 package ru.urfu.SecondLabTask.model;
 
 import java.util.HashSet;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ElementCollection;
+
+import jakarta.persistence.*;
+import lombok.Setter;
+
 import java.util.Set;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
 
 @Entity
 @Table(name = "my_users")
@@ -27,6 +21,9 @@ public class User
     @CollectionTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") })
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+//    @ManyToOne
+    @Setter
+    private Long projectId;
 
     public Long getId() {
         return this.id;

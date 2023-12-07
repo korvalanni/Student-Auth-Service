@@ -27,6 +27,7 @@ public class PageLoginController {
             return "login";
         }
     }
+
     public PageLoginController(final UserService userService) {
         this.userService = userService;
     }
