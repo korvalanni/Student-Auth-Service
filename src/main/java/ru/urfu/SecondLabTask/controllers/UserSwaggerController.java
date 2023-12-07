@@ -1,15 +1,17 @@
 package ru.urfu.SecondLabTask.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.urfu.SecondLabTask.dto.ProjectDTO;
 import ru.urfu.SecondLabTask.dto.UserDTO;
+import ru.urfu.SecondLabTask.dto.UserUpdatePasswordDTO;
 import ru.urfu.SecondLabTask.model.User;
 import ru.urfu.SecondLabTask.repository.ProjectRepository;
 import ru.urfu.SecondLabTask.services.UserService;
-
+@Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserSwaggerController {
@@ -23,6 +25,7 @@ public class UserSwaggerController {
     public ResponseEntity<UserDTO> getUser(@PathVariable String userName){
         User user = userService.findByUserName(userName);
         UserDTO userDTO = new UserDTO(user.getUserName(), user.getPassword());
+        log.info("Пользователь был успешно найден");
         return ResponseEntity.ok(userDTO);
     }
 
@@ -34,6 +37,7 @@ public class UserSwaggerController {
         catch (Exception ex){
             return ResponseEntity.badRequest().build();
         }
+        log.info("Пользователь был успешно создан");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -45,18 +49,25 @@ public class UserSwaggerController {
         catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
+        log.info("Логин пользователя был успешно обновлен");
         return ResponseEntity.ok().build();
     }
-    @PutMapping("/password")
-    public ResponseEntity<Void> updateUserPassword(@RequestBody UserDTO userDTO){
-        //toDo написать метод обновления пароля
-
-        return ResponseEntity.badRequest().build();
+    @PutMapping("/password/{userName}")
+    public ResponseEntity<Void> updateUserPassword(@PathVariable String userName, @RequestBody UserUpdatePasswordDTO userUpdatePasswordDTO){
+        try{
+            userService.updateUserPassword(userName, userUpdatePasswordDTO);
+        }
+        catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+        log.info("Пароль пользователя был успешно обновлен");
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{userName}")
     public ResponseEntity<Void> deleteUser(@PathVariable String userName) {
         userService.deleteUser(userName);
+        log.info("Пользователь был успешно удален");
         return ResponseEntity.ok().build();
     }
     @PostMapping("/project")

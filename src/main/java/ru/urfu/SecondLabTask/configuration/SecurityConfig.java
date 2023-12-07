@@ -22,9 +22,13 @@ public class SecurityConfig
         http
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/registration", "/user/**", "/login", "/project").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin().disable()
+                .requestMatchers("/registration", "/user/**", "/password", "/login", "/project").permitAll()
+                .anyRequest().authenticated())
+                .formLogin((login) -> login
+                        .loginPage("/login")
+                        .permitAll()
+                        .defaultSuccessUrl("/user", true)
+                        .failureUrl("/login?error=true"))
                 .logout((logout) -> logout.permitAll());
 
         return http.build();
